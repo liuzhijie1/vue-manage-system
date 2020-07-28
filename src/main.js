@@ -1,9 +1,29 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 import store from './store'
+import "./utils/directives";
+
+//加载图标样式
+import './assets/css/icon.css';
+import './assets/css/Icon-css/iconfont.css'
 
 Vue.config.productionTip = false
+
+Vue.use(ElementUI,{size:'small',zIndex:3000});
+
+
+router.beforeEach((to,from,next)=>{
+  document.title = `${to.meta.title} | vue-manage-system`;
+  const role = localStorage.getItem('ms_username');
+  if(!role && to.path !== '/login'){
+    next("/login");
+  }else{
+    next();
+  }
+})
 
 new Vue({
   router,
