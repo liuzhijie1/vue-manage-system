@@ -1,132 +1,143 @@
 <template>
-   <div style="width:800px">
-
-    <el-table :data="tableData"
-      border
-      row-key="id"
-      align="left">
-     <el-table-column v-for="(item, index) in col"
+  <div style="width:800px">
+    <el-table :data="tableData" border row-key="id" align="left">
+      <el-table-column
+        v-for="(item, index) in col"
         :key="`col_${index}`"
         :prop="dropCol[index].prop"
-        :label="item.label"> 
+        :label="item.label"
+      >
       </el-table-column>
       <el-table-column>
           <template slot-scope="prop">
-              <button type="button" @click="goUp(prop.row)">上</button>&nbsp;&nbsp;
-              <button type="button" @click="goDown(prop.row)">下</button>
+              <button type="button" @click="goUp(prop.row)">上</button>
           </template>
       </el-table-column>
     </el-table>
     <pre style="text-align: left">
-      {{dropCol}}
+      {{ dropCol }}
     </pre>
-    <hr>
+    <hr />
     <pre style="text-align: left">
-      {{tableData}}
+      {{ tableData }}
     </pre>
   </div>
 </template>
 
 <script>
-import Sortable from 'sortablejs'
+import Sortable from "sortablejs";
 export default {
-data() {
+  data() {
     return {
       col: [
         {
-          label: '日期',
-          prop: 'date'
+          label: "日期",
+          prop: "date",
         },
         {
-          label: '姓名',
-          prop: 'name'
+          label: "姓名",
+          prop: "name",
         },
         {
-          label: '地址',
-          prop: 'address'
-        }
+          label: "地址",
+          prop: "address",
+        },
       ],
       dropCol: [
         {
-          label: '日期',
-          prop: 'date'
+          label: "日期",
+          prop: "date",
         },
         {
-          label: '姓名',
-          prop: 'name'
+          label: "姓名",
+          prop: "name",
         },
         {
-          label: '地址',
-          prop: 'address'
-        }
+          label: "地址",
+          prop: "address",
+        },
       ],
       tableData: [
         {
-          id: '1',
-          date: '2016-05-02',
-          name: '王小虎1',
-          address: '上海市普陀区金沙江路 100 弄'
+          id: "1",
+          date: "2016-05-02",
+          name: "王小虎1",
+          address: "上海市普陀区金沙江路 100 弄",
         },
         {
-          id: '2',
-          date: '2016-05-04',
-          name: '王小虎2',
-          address: '上海市普陀区金沙江路 200 弄'
+          id: "2",
+          date: "2016-05-04",
+          name: "王小虎2",
+          address: "上海市普陀区金沙江路 200 弄",
         },
         {
-          id: '3',
-          date: '2016-05-01',
-          name: '王小虎3',
-          address: '上海市普陀区金沙江路 300 弄'
+          id: "3",
+          date: "2016-05-01",
+          name: "王小虎3",
+          address: "上海市普陀区金沙江路 300 弄",
         },
         {
-          id: '4',
-          date: '2016-05-03',
-          name: '王小虎4',
-          address: '上海市普陀区金沙江路 400 弄'
-        }
-      ]
-    }
+          id: "4",
+          date: "2016-05-03",
+          name: "王小虎4",
+          address: "上海市普陀区金沙江路 400 弄",
+        },
+      ],
+    };
   },
   mounted() {
-    this.rowDrop()
-    this.columnDrop()
+    this.rowDrop();
+    this.columnDrop();
   },
   methods: {
     //行拖拽
     rowDrop() {
-      const tbody = document.querySelector('.el-table__body-wrapper tbody')
-      const _this = this
+      const tbody = document.querySelector(".el-table__body-wrapper tbody");
+      const _this = this;
       Sortable.create(tbody, {
         onEnd({ newIndex, oldIndex }) {
-          const currRow = _this.tableData.splice(oldIndex, 1)[0]
-          _this.tableData.splice(newIndex, 0, currRow)
-        }
-      })
+          const currRow = _this.tableData.splice(oldIndex, 1)[0];
+          _this.tableData.splice(newIndex, 0, currRow);
+        },
+      });
     },
     //列拖拽
     columnDrop() {
-      const wrapperTr = document.querySelector('.el-table__header-wrapper tr')
+      const wrapperTr = document.querySelector(".el-table__header-wrapper tr");
       this.sortable = Sortable.create(wrapperTr, {
         animation: 180,
         delay: 0,
-        onEnd: evt => {
-          const oldItem = this.dropCol[evt.oldIndex]
-          this.dropCol.splice(evt.oldIndex, 1)
-          this.dropCol.splice(evt.newIndex, 0, oldItem)
-        }
-      })
+        onEnd: (evt) => {
+          const oldItem = this.dropCol[evt.oldIndex];
+          this.dropCol.splice(evt.oldIndex, 1);
+          this.dropCol.splice(evt.newIndex, 0, oldItem);
+        },
+      });
     },
-    goUp(obj){
-        console.log(obj)
+    goUp(obj) {
+      console.log(obj, "-----");
+    //   let cur = this.tableData.splice(obj.index, 1)[0];
+    //   this.tableData.splice(obj.index - 1, 0, cur);
+      for(let i=0;i<this.tableData.length;i++){
+          if(this.tableData[i].id === obj.id){
+              if(i === 0) {this.$message.error('已经是第一了'); break;}
+              let cur = this.tableData.splice(i,1)[0];
+              this.tableData.splice(i-1,0,cur);
+              break;
+          }
+      }
     },
-    goDown(obj){
-        console.log(obj);
-    }
-  }
-}
+    goDown(obj) {
+      console.log(obj, "-----");
+    },
+  },
+};
 </script>
 
-<style>
-
+<style scoped>
+.red-box{
+    width: 10px;
+    height: 10px;
+    background: red;
+}
 </style>
