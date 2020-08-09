@@ -10,6 +10,9 @@ import "./utils/directives";
 import './assets/css/icon.css';
 import './assets/css/Icon-css/iconfont.css'
 
+// 加载拖拽组件
+import "./utils/directives";
+
 Vue.config.productionTip = false
 
 Vue.use(ElementUI,{size:'small',zIndex:3000});

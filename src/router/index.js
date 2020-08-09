@@ -36,6 +36,17 @@ Vue.use(VueRouter)
         meta:{
           title:'基础表格'
         }
+      },
+      {
+        path:'drag',
+        component:()=>import('../components/page/DragList.vue'),
+        meta:{
+          title:'拖拽组件'
+        }
+      },
+      {
+        path: 'testtable',
+        component:()=>import('../components/page/TestTable.vue')
       }
     ]
   },
